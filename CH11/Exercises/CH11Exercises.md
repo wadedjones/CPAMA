@@ -37,3 +37,40 @@ void avg_sum(double a[], int n, double *avg, double *sum) {
     *avg = *sum / n;
 }
 ```
+-----  
+
+#### 4. Write the following function:
+```c
+void swap(int *p, int *q);
+```  
+#### When passed the addresses of two variables, swap should exchange the values of the variables:
+```c
+swap(&i, &j); /* exchanges the values of i and j */
+```
+
+#### Answer:
+```c
+void swap(int *p, int *q) {
+    int temp = *p;
+    *p = *q;
+    *q = temp;
+}
+```
+-----
+  
+#### 5. Write the following function:
+```c
+void split_time(long total_sec, int *hr, int *min, int *sec);
+```
+#### total_sec is a time represented as the number of seconds since midnight. hr, min, and sec  
+#### are pointers to variables in which the function will store the equivalent time in hours  
+#### (0-23), minutes (0-59), and seconds (0-59), respectively.  
+  
+#### Answer:
+```c
+void split_time(long total_sec, int *hr, int *min, int *sec) {
+    *hr = (total_sec / 60) / 60;
+    *min = (total_sec / 60) - (*hr * 60);
+    *sec = total_sec - ((*hr * 60 * 60) + (*min * 60));
+}
+```
