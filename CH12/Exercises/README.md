@@ -313,7 +313,19 @@ void find_two_largest(const int *a, int n, int *largest, int *second_largest) {
 #### Answer:
 
 ```c
-
+int ident[N][N];
+    int row, col;
+    int *p;
+    
+    int i = 0;
+    
+    for (p = ident[0]; p < ident[0] + N * N; p++, i++) {
+        if (i % 11 == 0) {
+            *p = 1;
+        } else {
+            *p = 0;
+        }
+    }
 ```
 
 ---
