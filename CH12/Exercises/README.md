@@ -341,7 +341,7 @@ int temperatures[7][24];
 #### Answer:
 
 ```c
-
+search(temperatures, 7 * 24, 32);
 ```
 
 ---
@@ -351,7 +351,12 @@ int temperatures[7][24];
 #### Answer:
 
 ```c
+int *p;
+int i;
 
+for (p = temperatures[i]; p < temperatures[i + 1]; p++) {
+    printf("%d", *p);
+}
 ```
 
 ---
@@ -361,7 +366,11 @@ int temperatures[7][24];
 #### Answer:
 
 ```c
+int i;
 
+for (i = 0; i < 7; i++) {
+    find_largest(temperatures[i], 24);
+}
 ```
 
 ---
@@ -384,7 +393,15 @@ int sum_two_dimensional_array(const int a[][LEN], int n) {
 #### Answer:
 
 ```c
-
+int sum_two_dimensional_array(const int a[][LEN], int n) {
+    const int *p = *a;
+    int sum = 0;
+    
+    for (; p < *a + n * LEN; p++) {
+        sum += *p;
+    }
+    return sum;
+}
 ```
 
 ---
@@ -394,5 +411,16 @@ int sum_two_dimensional_array(const int a[][LEN], int n) {
 #### Answer:
 
 ```c
+int evaluate_position(char board[8][8]) {
+    int *p;
+    int white, black;
+    white = black = 0;
 
+    for (p = board; p < board + 8 * 8; p++) {
+        switch (*p) {
+            // a bunch of switch statements...
+        }
+    }
+    return white - black;
+}
 ```
