@@ -1,4 +1,4 @@
-#### The following function calls supposedly write a single new-line character, but some are incorrect. Identify which calls don't work and explain why.
+#### 1. The following function calls supposedly write a single new-line character, but some are incorrect. Identify which calls don't work and explain why.
 
 > (a) printf("%c", '\n');  
 > (b) printf("%c", "\n");   
@@ -28,7 +28,7 @@
 
 ---
 
-#### Suppose that p has been declared as follows:
+#### 2. Suppose that p has been declared as follows:
 
 ```c
 char *p = "abc";
@@ -43,4 +43,24 @@ char *p = "abc";
 
 #### Answer:
 
-> (a)
+> (a) "Incompatible pointer to integer conversion passing 'char *' to parameter of type 'int'"  
+> (b) Prints: a // With no new line  
+> (c) Prints: abc // With a new line  
+> (d) "Incompatible integer to pointer conversion passing 'char' to parameter of type 'const char *'"  
+
+---
+
+#### 3. Suppose that we call scanf as follows:
+
+```c
+scanf("%d%s%d", &i, s, &j);
+```
+
+> If the user enters 12abc34 56def78, what will be the values of i, s, and j after the call?  
+> (assume that i and j are int variables and s is an array of chars.)
+
+#### Answer:
+
+> i is equal to 12  
+> s is equal to abc34  
+> j is equal to 56  
