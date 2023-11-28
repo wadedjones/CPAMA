@@ -349,4 +349,9 @@ void build_index_url(const char *domain, char *index_url);
 #### Answer:
 
 ```c
+void build_index_url(const char *domain, char *index_url) {
+    char https[] = "https://www.";
+    char index[] = "/index.html";
+    strcat(strcat(strcpy(index_url, https), domain), index);
+}
 ```
