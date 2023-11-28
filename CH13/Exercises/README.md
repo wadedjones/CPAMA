@@ -355,3 +355,106 @@ void build_index_url(const char *domain, char *index_url) {
     strcat(strcat(strcpy(index_url, https), domain), index);
 }
 ```
+
+---
+
+#### 14. What does the following program print?
+
+```c
+#include <stdio.h>
+
+int main(void) {
+    char s[] = "Hsjodi", *p;
+
+    for (p = s; *p; p++)
+        --*p;
+    puts(s);
+    return 0;
+}
+```
+
+#### Answer:
+
+> The program prints `Grinch`  
+
+---
+
+#### 15. Let f be the following function:
+
+```c
+int f(char *s, char *t) {
+    char *p1, *p2;
+
+    for (p1 = s; *p1; p1++) {
+        for (p2 = t; *p2; p2++)
+            if (*p1 == *p2) break;
+        if (*p2 == '\0') break;
+    }
+    return p1 - s;
+}
+```
+
+> (a) What is the value of `f("abcd", "babc")?`  
+> (b) What is the value of `f("abcd", "bcd")?`  
+> (c) In general, what value does f return when passed two strings s and t?
+
+#### Answer:
+
+> (a) returns `3`  
+> (b) returns `0`  
+> (c) the amount of chars in s that exist in t, prefixed (if the first value is not in t, return 0, and so on).
+
+---
+
+#### 16. Use the techniques of Section 13.6 to condense the `count_spaces` function of Section 13.4. In particular, replace the `for` statement by a `while` loop.
+
+> Original `count_spaces` function:
+
+```c
+int count_spaces(const char *s) {
+    int count = 0;
+    for (; *s != '\0'; s++) {
+        if (*s == ' ') {
+            count++;
+        }
+    }
+    return count;
+}
+```
+
+#### Answer:
+
+```c
+int count_spaces(const char *s) {
+    int count = 0;
+
+    while (*s) {
+       if (*s++ == ' ') 
+            count++;
+    }
+    return count;
+}
+```
+
+---
+
+#### 17. Write the following function:
+
+```c
+bool test_extension(const char *filename, const char *extension);
+```
+
+> `file_name` points to a string containing a file name. The function should return `true` if the file's extension matches the string pointed to by `extension`, ignoring the case of letters. For example, the call `test_extension("memo.text", "TXT")` would return `true`. Incorporate the "search for the end of a string" idiom into your function. *Hint:* Use the `toupper` function to convert characters to upper-case before comparing them.
+
+#### Answer:
+
+```c
+bool test_extension(const char *file_name, const char *extension) {
+    const char *p = file_name + (strlen(file_name)) - strlen(extension);
+    while (*p) {
+        if (toupper(*p++) != toupper(*extension++))
+            return false;
+    }
+    return true;
+}
+```
