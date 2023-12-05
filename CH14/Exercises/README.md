@@ -6,9 +6,9 @@
 
 #### Answer:
 
-> (a) `#define CUBE(x) (x*x*x)`  
-> (b) `#define REMAINDER(n) (n%4)`  
-> (c) `#define PRODUCT(x,y) (x*y<100?1:0)`
+> (a) `#define CUBE(x) ((x)*(x)*(x))`  
+> (b) `#define REMAINDER(n) ((n)%4)`  
+> (c) `#define PRODUCT(x,y) ((x)*(y)<100?1:0)`
 
 ---
 
@@ -28,9 +28,9 @@
 #define DOUBLE(x) 2*x
 ```
 
-> (a) What is the value of DOUBLE(1+2)?  
-> (b) What is the value of 4/DOUBLE(2)?  
-> (c) Fix the definition of DOUBLE  
+> (a) What is the value of `DOUBLE(1+2)`?  
+> (b) What is the value of `4/DOUBLE(2)`?  
+> (c) Fix the definition of `DOUBLE`  
 
 #### Answer:
 
@@ -231,5 +231,55 @@ ERROR("Range error: index = %d\n", index);
 #### Answer:
 
 > Both (c) and (e) will fail, since `M` is defined.  
+
+---
+
+#### 13.
+#### (a) Show what the following program will look like after preprocessing. You may ignore any lines added to the program as a result of including the `<stdio.h>` header.
+
+```c
+#include <stdio.h>
+
+#define N 100
+
+void f(void);
+
+int main(void) {
+    f();
+    #ifdef N
+    #undef N
+    #endif
+    return 0;
+}
+
+void f(void) {
+    #if defined(N)
+    printf("N is %d\n", N);
+    #else
+    printf("N is undefined\n");
+    #endif
+}
+```
+
+#### (b) What will be the output of this program?
+
+#### Answer:
+
+> (a)  
+
+```c
+void f(void);
+
+int main(void) {
+    f();
+    return 0;
+}
+
+void f(void) {
+    printf("N is undefined\n");
+}
+```
+
+> (b) The output is `N is undefined`  
 
 ---
