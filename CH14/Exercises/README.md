@@ -283,3 +283,115 @@ void f(void) {
 > (b) The output is `N is undefined`  
 
 ---
+
+#### 14. Show what the following program will look like after preprocessing. Some lines of the program may cause errors; find all such errors.
+
+```c
+#define N = 10
+#define INC(x) x+1
+#define SUB (x,y) x-y
+#define SQR(x) ((x)*(x))
+#define CUBE(x) (SQR(x)*(x))
+#define M1(x,y) x##y
+#define M2(x,y) #x #y
+
+int main(void) {
+    int a[N], i, j, k, m;
+
+    #ifdef N
+    i = j;
+    #else
+    j = i;
+    #endif
+
+    i = 10 * INC(j);
+    i = SUB(j, k);
+    i = SQR(SQR(j));
+    i = CUBE(j);
+    i = M1(j,k);
+    puts(M2(i, j));
+
+    #undef SQR
+    i = SQR(j);
+    #define SQR
+    i = SQR(j);
+
+    return 0;
+}
+
+```
+
+#### Answer:
+
+```c
+int main(void) {
+    int a[= 10], i, j, k, m;
+
+
+    i = j;
+
+
+
+
+    i = 10 * j + 1;
+    i = (x,y) x - y(j, k);
+    i = ((((j) * (j))) * (((j) * (j))));
+    i = (((j) * (j)) * (j));
+    i = jk;
+    puts("i" "j");
+
+    i = SQR(j);
+
+    i = (j);
+
+    return 0;
+}
+```
+
+> First error at `#define N =`  
+> The next few errors are no parenthesis around macro params: `INC, SUB, M1, M2`  
+> The next error: `i = j;`, j is undefined.  
+> This causes the rest of the program to have undefined behavior.  
+
+---
+
+#### 15. Suppose that a program needs to display messages in either English, French, or Spanish. Using conditional compilation, write a program fragment that displays one of the following three messages, depending on whether or not the specified macro is defined:
+
+```c
+Insert Disk 1 (if ENGLISH is defined)
+Inserez Le Disque 1 (if FRENCH is defined)
+Inserte El Disco 1 (if SPANISH is defined)
+```
+
+#### Answer:
+
+```c
+#if defined(ENGLISH)
+printf("Insert Disk 1\n");
+#elif defined(FRENCH)
+printf("Inserez Le Disque 1\n");
+#elif defined(SPANISH)
+printf("Inserte El Disco 1\n");
+#else
+printf("No language defined\n");
+#endif
+```
+
+---
+
+#### 16. Assume that the following macro definitions are in effect:
+
+```c
+#define IDENT(x) PRAGMA(ident #x)
+#define PRAGMA(x) _Pragma(#x)
+```
+
+#### What will the following line look like after macro expansion?
+
+`IDENT(foo)`
+
+#### Answer:
+
+```c
+#pragma ident "foo"
+```
