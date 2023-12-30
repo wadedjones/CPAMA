@@ -3,6 +3,7 @@
 #include "readline.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define NAME_LEN 25
 
@@ -140,4 +141,44 @@ void print(void) {
   for (p = inventory; p != NULL; p = p->next) {
     printf("%7d       %-25s%11d\n", p->number, p->name, p->on_hand);
   }
+}
+
+// function to add to qsort for sorting a part struct
+// qsort(inventory, num_parts, sizeof(struct part), compare_parts)
+//
+// use num_parts instead of MAX_PARTS so it only sorts the parts actually in the
+// array
+
+int compare_parts1(const void *p, const void *q) {
+  const struct part *p1 = p;
+  const struct part *q1 = q;
+
+  if (p1->number < q1->number) {
+    return -1;
+  } else if (p1->number == q1->number) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+// a more concise version
+int compare_parts2(const void *p, const void *q) {
+  if (((struct part *)p)->number < ((struct part *)q)->number) {
+    return -1;
+  } else if (((struct part *)p)->number == ((struct part *)q)->number) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+// a risky version, assuming all part numbers are positive
+int compare_parts3(const void *p, const void *q) {
+  return ((struct part *)p)->number - ((struct part *)q)->number;
+}
+
+// comparing the parts by name
+int compare_parts4(const void *p, const void *q) {
+  return strcmp(((struct part *)p)->name, ((struct part *)q)->name);
 }
