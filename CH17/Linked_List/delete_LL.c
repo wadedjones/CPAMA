@@ -22,3 +22,15 @@ struct node *delete_from_list(struct node *list, int n) {
   free(cur);
   return list;
 }
+
+void delete_from_list2(struct node **list, int n) {
+  struct node *prev = NULL;
+
+  for (; *list != NULL; prev = *list, *list = (*list)->next)
+    ;
+  if (prev == NULL) {
+    *list = (*list)->next;
+  } else {
+    prev->next = (*list)->next;
+  }
+}

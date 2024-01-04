@@ -12,6 +12,7 @@ struct node *add_to_list(struct node *list, int n);
 struct node *add_to_end(struct node *list, int n);
 void add_to_end2(struct node **list, int n);
 struct node *delete_from_list(struct node *list, int n);
+void delete_from_list2(struct node **list, int n);
 void print_linked_list(struct node *list);
 
 int main(void) {
@@ -38,7 +39,7 @@ first = new_node;
 
   print_linked_list(first);
 
-  delete_from_list(first, 32);
+  delete_from_list2(&first, 10);
 
   print_linked_list(first);
 
@@ -192,6 +193,19 @@ struct node *delete_from_list(struct node *list, int n) {
   }
   free(cur);
   return list;
+}
+
+void delete_from_list2(struct node **list, int n) {
+  struct node *prev = *list;
+
+  while (prev) {
+    if (prev->value == n) {
+      *list = prev->next;
+      break;
+    }
+    list = &prev->next;
+    prev = prev->next;
+  }
 }
 
 // For fun, print list
