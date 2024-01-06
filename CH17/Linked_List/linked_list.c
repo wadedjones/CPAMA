@@ -14,10 +14,14 @@ void add_to_end2(struct node **list, int n);
 struct node *delete_from_list(struct node *list, int n);
 void delete_from_list2(struct node **list, int n);
 void print_linked_list(struct node *list);
+struct node *insert_into_ordered_list(struct node *list, struct node *new_node);
 
 int main(void) {
   // Initialize the list
   struct node *first = NULL;
+  struct node *new_node = malloc(sizeof(struct node));
+  new_node->value = 40;
+  new_node->next = NULL;
 
   /* Creating a node requires three steps:
    * 1. Allocate memory for the node.
@@ -32,14 +36,17 @@ first = new_node;
   */
 
   // Or use a function to add a new node
+  add_to_end2(&first, 10);
   add_to_end2(&first, 20);
-  add_to_end2(&first, 32);
-  add_to_end2(&first, 69);
-  add_to_end2(&first, 4);
+  add_to_end2(&first, 30);
+  add_to_end2(&first, 50);
+  add_to_end2(&first, 70);
 
   print_linked_list(first);
 
-  delete_from_list2(&first, 10);
+  insert_into_ordered_list(first, &(struct node){40, NULL});
+  first = insert_into_ordered_list(first, &(struct node){5, NULL});
+  insert_into_ordered_list(first, &(struct node){80, NULL});
 
   print_linked_list(first);
 
@@ -210,8 +217,35 @@ void delete_from_list2(struct node **list, int n) {
 
 // For fun, print list
 void print_linked_list(struct node *list) {
+  if (list == NULL) {
+    printf("list is NULL\n");
+    return;
+  }
   printf("------------Print Linked List------------\n");
   for (; list != NULL; list = list->next) {
     printf("Value: %d\n", list->value);
   }
+}
+
+struct node *insert_into_ordered_list(struct node *list,
+                                      struct node *new_node) {
+  struct node *cur = list, *prev = NULL;
+  if (cur == NULL) {
+    return new_node;
+  }
+  while (cur->value <= new_node->value) {
+    if (cur->next == NULL) {
+      cur->next = new_node;
+      return list;
+    }
+    prev = cur;
+    cur = cur->next;
+  }
+  if (prev == NULL) {
+    new_node->next = cur;
+    return new_node;
+  }
+  prev->next = new_node;
+  new_node->next = cur;
+  return list;
 }
