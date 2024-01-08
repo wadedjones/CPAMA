@@ -1,57 +1,8 @@
 /* Examples of linked lists */
 
+#include "linked_list.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-struct node {
-  int value;
-  struct node *next;
-};
-
-struct node *add_to_list(struct node *list, int n);
-struct node *add_to_end(struct node *list, int n);
-void add_to_end2(struct node **list, int n);
-struct node *delete_from_list(struct node *list, int n);
-void delete_from_list2(struct node **list, int n);
-void print_linked_list(struct node *list);
-struct node *insert_into_ordered_list(struct node *list, struct node *new_node);
-
-int main(void) {
-  // Initialize the list
-  struct node *first = NULL;
-  struct node *new_node = malloc(sizeof(struct node));
-  new_node->value = 40;
-  new_node->next = NULL;
-
-  /* Creating a node requires three steps:
-   * 1. Allocate memory for the node.
-   * 2. Store data in the node.
-   * 3. Insert node into the list. */
-  /*
-struct node *new_node = malloc(sizeof(struct node));
-//(*new_node).value = 10;
-new_node->value = 10;
-new_node->next = first;
-first = new_node;
-  */
-
-  // Or use a function to add a new node
-  add_to_end2(&first, 10);
-  add_to_end2(&first, 20);
-  add_to_end2(&first, 30);
-  add_to_end2(&first, 50);
-  add_to_end2(&first, 70);
-
-  print_linked_list(first);
-
-  insert_into_ordered_list(first, &(struct node){40, NULL});
-  first = insert_into_ordered_list(first, &(struct node){5, NULL});
-  insert_into_ordered_list(first, &(struct node){80, NULL});
-
-  print_linked_list(first);
-
-  return 0;
-}
 
 // Simple function to add to linked list.
 // Numbers will be in reverse order though. WHOMP
@@ -81,10 +32,9 @@ void add_to_list2(struct node **list, int n) {
   /* add_to_list2(&first, 10); */
 }
 
-// add to end of linked list STILL IN PROGRESS OMG
+// add to end of linked list
 // requires first call of add_to_end to be assigned to the LL head.
 struct node *add_to_end(struct node *list, int n) {
-  printf("------------Enter add_to_end------------\n");
 
   struct node *new_node = malloc(sizeof(struct node));
 
@@ -97,16 +47,13 @@ struct node *add_to_end(struct node *list, int n) {
   new_node->next = NULL;
 
   if (list == NULL) {
-    printf("--list == NULL--\n");
     list = new_node;
     return list;
   }
 
   if (list->next == NULL) {
-    printf("--list->next == NULL--\n");
     list->next = new_node;
   } else {
-    printf("else clause:\n");
     struct node *cur = list;
     while (cur->next != NULL) {
       cur = cur->next;
@@ -118,8 +65,6 @@ struct node *add_to_end(struct node *list, int n) {
 }
 
 void add_to_end2(struct node **list, int n) {
-  printf("------------Enter add_to_end------------\n");
-
   struct node *new_node = malloc(sizeof(struct node));
 
   if (new_node == NULL) {
@@ -131,7 +76,6 @@ void add_to_end2(struct node **list, int n) {
   new_node->next = NULL;
 
   if (*list == NULL) {
-    printf("--list == NULL--\n");
     *list = new_node;
     return;
   } else {
@@ -222,8 +166,9 @@ void print_linked_list(struct node *list) {
     return;
   }
   printf("------------Print Linked List------------\n");
-  for (; list != NULL; list = list->next) {
+  while (list != NULL) {
     printf("Value: %d\n", list->value);
+    list = list->next;
   }
 }
 
@@ -248,4 +193,44 @@ struct node *insert_into_ordered_list(struct node *list,
   prev->next = new_node;
   new_node->next = cur;
   return list;
+}
+
+void insert_into_ordered_list2(struct node **list, struct node *new_node) {
+  struct node *p;
+
+  if (*list == NULL || (*list)->value >= new_node->value) {
+    new_node->next = *list;
+    *list = new_node;
+  } else {
+    p = *list;
+    while (p->next != NULL && p->next->value < new_node->value) {
+      p = p->next;
+    }
+    new_node->next = p->next;
+    p->next = new_node;
+  }
+}
+
+int count_occurrences(struct node *list, int n) {
+  int count = 0;
+
+  while (list != NULL) {
+    if (list->value == n) {
+      count++;
+    }
+    list = list->next;
+  }
+  return count;
+}
+
+struct node *find_last(struct node *list, int n) {
+  struct node *result = NULL;
+
+  while (list != NULL) {
+    if (list->value == n) {
+      result = list;
+    }
+    list = list->next;
+  }
+  return result;
 }
