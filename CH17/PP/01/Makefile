@@ -1,15 +1,34 @@
+TARGET = main
 CC = gcc
-objects = inventory.o readline.o
 
-inventory : $(objects)
-	gcc -o inventory $(objects)
+SRCS := $(wildcard *.c)
+OBJDIR = build
+OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
 
-inventory.o : inventory.c readline.h
-	gcc -c inventory.c
+DEPDIR = dep
+DEPS := $(SRCS:%.c=$(DEPDIR)/%.d)
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
-readline.o : readline.c readline.h
-	gcc -c readline.c
+CFLAGS = -Wall -Wextra
+LDLIBS = -lraylib
+DUP_DIR = mkdir -p $(@D)
 
-.PHONY : clean
-clean :
-	-rm $(objects)
+.PHONY: clean
+
+all: $(TARGET)
+
+$(OBJDIR)/%.o: %.c | $(OBJDIR) $(DEPDIR)
+	$(CC) -c $(CFLAGS) $(DEPFLAGS) -o $@ $<
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDLIBS) -o $@ $^
+
+clean:
+	rm -rf $(OBJDIR) $(DEPDIR) $(TARGET)
+
+$(OBJDIR) $(DEPDIR):
+	mkdir -p $@
+
+$(DEPFILES):
+
+include $(wildcard $(DEPS))

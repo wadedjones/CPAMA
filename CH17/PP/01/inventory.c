@@ -43,7 +43,7 @@ int main(void) {
 			case 'p': print();
 								break;
 			case 'q': return 0;
-			defualt: printf("Illegal code\n");
+			default: printf("Illegal code\n");
     }
 		printf("\n");
   }
